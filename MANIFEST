@@ -2,6 +2,8 @@ Build.PL
 Changes
 LICENSE
 MANIFEST
+META.json
+META.yml
 README
 lib/Math/Random/PCG32.pm
 lib/Math/Random/PCG32.xs
@@ -10,7 +12,6 @@ ppport.h
 src/pcg.c
 src/pcg.h
 t/00-load.t
+t/10-pcg.t
 t/pod-coverage.t
 t/pod.t
-META.yml
-META.json
