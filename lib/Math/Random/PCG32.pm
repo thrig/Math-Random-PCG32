@@ -9,7 +9,7 @@ package Math::Random::PCG32;
 use warnings;
 use strict;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 require XSLoader;
 XSLoader::load( 'Math::Random::PCG32', $VERSION );
@@ -35,6 +35,20 @@ Math::Random::PCG32 - minimal PCG random number generator
 This is a minimal PCG random number generator.
 
 L<http://www.pcg-random.org/>
+
+=head2 A RANDOM BENCHMARK
+
+This pits the (very bad) core C<rand> function against the B<rand>
+methods from L<Math::Random::ISAAC>, L<Math::Random::MTwist>,
+L<Math::Random::Xorshift>, and this module for C<cmpthese( -5, ...> via
+the L<Benchmark> module on my somehow still functional 2009 macbook.
+
+               Rate  isacc  xorsh mtwist    pcg   rand
+  isacc    214269/s     --   -92%   -96%   -96%   -99%
+  xorsh   2661857/s  1142%     --   -47%   -52%   -88%
+  mtwist  5030175/s  2248%    89%     --    -9%   -78%
+  pcg     5518583/s  2476%   107%    10%     --   -75%
+  rand   22447322/s 10376%   743%   346%   307%     --
 
 =head1 METHODS
 
@@ -73,24 +87,7 @@ compiler for the C<stdint> types. Untested on older versions of Perl.
 
 L<https://github.com/imneme/pcg-c-basic>
 
-L<Math::Random::MTwist> is very fast if more complicated.
-
-L<Math::Random::Secure> for good seed choice and L<Math::Random::ISAAC>
-which is not so fast.
-
-=head1 A RANDOM BENCHMARK
-
-This pits the (very bad) core C<rand> function against the C<rand> calls
-from L<Math::Random::ISAAC>, L<Math::Random::MTwist>,
-L<Math::Random::Xorshift>, and this module for C<cmpthese( -5, ...> via
-the L<Benchmark> module on my somehow still functional 2009 macbook.
-
-               Rate  isacc  xorsh    pcg mtwist   rand
-  isacc    236759/s     --   -92%   -94%   -96%   -99%
-  xorsh   3132085/s  1223%     --   -19%   -42%   -89%
-  pcg     3847667/s  1525%    23%     --   -29%   -87%
-  mtwist  5437236/s  2197%    74%    41%     --   -82%
-  rand   29808447/s 12490%   852%   675%   448%     --
+L<Math::Random::Secure> for good seed choice.
 
 =head1 AUTHOR
 
@@ -100,7 +97,7 @@ thrig - Jeremy Mates (cpan:JMATES) C<< <jmates at cpan.org> >>
 
 Perl module copyright (C) 2018 by Jeremy Mates
 
-Code under src/ directory mostly (c) 2014 M.E. O'Neill / pcg-random.org
+Code under src/ directory (c) 2014 M.E. O'Neill / pcg-random.org
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may
 not use this file except in compliance with the License. You may obtain

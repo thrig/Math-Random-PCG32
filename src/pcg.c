@@ -6,19 +6,6 @@
 
 #include "pcg.h"
 
-pcg32_random_t *new(uint64_t initstate, uint64_t initseq)
-{
-    pcg32_random_t *rng = malloc(sizeof(pcg32_random_t));
-    if (rng == NULL)
-        croak("out of memory");
-    rng->state = 0U;
-    rng->inc = (initseq << 1u) | 1u;
-    pcg32_random_r(rng);
-    rng->state += initstate;
-    pcg32_random_r(rng);
-    return rng;
-}
-
 uint32_t pcg32_random_r(pcg32_random_t * rng)
 {
     uint64_t oldstate = rng->state;
@@ -30,7 +17,11 @@ uint32_t pcg32_random_r(pcg32_random_t * rng)
     return (xorshifted >> rot) | (xorshifted << ((-rot) & 31));
 }
 
-void DESTROY(pcg32_random_t * rng)
+void pcg32_srandom_r(pcg32_random_t * rng, uint64_t initstate, uint64_t initseq)
 {
-    free(rng);
+    rng->state = 0U;
+    rng->inc = (initseq << 1u) | 1u;
+    pcg32_random_r(rng);
+    rng->state += initstate;
+    pcg32_random_r(rng);
 }

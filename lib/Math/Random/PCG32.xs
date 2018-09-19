@@ -8,30 +8,31 @@
 
 #include "pcg.h"
 
-typedef pcg32_random_t *Math__Random__PCG32;
-
 MODULE = Math::Random::PCG32		PACKAGE = Math::Random::PCG32
 
 PROTOTYPES: ENABLE
 
-Math::Random::PCG32
-new(package, initstate, initseq)
-    char *package
+pcg32_random_t *
+new(CLASS, initstate, initseq)
+    char *CLASS
     UV initstate
     UV initseq
     CODE:
-        RETVAL = new(initstate, initseq);
+        Newxz(RETVAL, 1, pcg32_random_t);
+        if (RETVAL == NULL)
+            croak("Could not allocate state memory");
+        pcg32_srandom_r(RETVAL, initstate, initseq);
     OUTPUT:
         RETVAL
 
 UV
-rand(obj)
-    Math::Random::PCG32 obj
+rand(pcg32_random_t *rng)
     CODE:
-        RETVAL = pcg32_random_r(obj);
+        RETVAL = pcg32_random_r(rng);
     OUTPUT:
         RETVAL
 
 void
-DESTROY(obj)
-    Math::Random::PCG32 obj
+DESTROY(pcg32_random_t *rng)
+    PPCODE:
+        Safefree(rng);

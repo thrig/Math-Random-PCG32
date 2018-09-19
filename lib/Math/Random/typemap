@@ -1,19 +1,16 @@
-###############################################################################
-##
-##    Typemap for Math::Random::PCG32 objects
-##
-##    Copyright (c) 2018 Jeremy Mates
-##    All rights reserved.
-##
-##    This typemap is designed specifically to make it easier to handle
-##    Perl-style blessed objects in XS.  In particular, it takes care of
-##    blessing the object into the correct class (even for derived classes).
-##   
-##
-###############################################################################
-## vi:et:sw=4 ts=4
+uint32_t                T_UV
+pcg32_random_t *        O_OBJECT
 
-TYPEMAP
+OUTPUT
+O_OBJECT
+  sv_setref_pv($arg, CLASS, (void*)$var);
 
-pcg32_random_t *        T_PTROBJ
-Math::Random::PCG32     T_PTROBJ
+INPUT
+O_OBJECT
+  SV* sv = $arg;
+  if (sv_isobject(sv)) {
+    $var = INT2PTR( $type, SvUV((SV*)SvRV(sv)) );
+    *$var = *$var; /* tell the compiler that $var is not NULL */
+  }
+  else
+    $var = NULL;

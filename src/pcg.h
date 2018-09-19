@@ -8,6 +8,6 @@ typedef struct {
     uint64_t inc;
 } pcg32_random_t;
 
-pcg32_random_t *new(uint64_t initstate, uint64_t initseq);
 uint32_t pcg32_random_r(pcg32_random_t * rng);
-void DESTROY(pcg32_random_t * rng);
+void pcg32_srandom_r(pcg32_random_t * rng, uint64_t initstate,
+                     uint64_t initseq);
