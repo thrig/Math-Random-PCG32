@@ -1,0 +1,16 @@
+Build.PL
+Changes
+LICENSE
+MANIFEST
+README
+lib/Math/Random/PCG32.pm
+lib/Math/Random/PCG32.xs
+lib/Math/Random/typemap
+ppport.h
+src/pcg.c
+src/pcg.h
+t/00-load.t
+t/pod-coverage.t
+t/pod.t
+META.yml
+META.json
