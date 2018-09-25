@@ -93,6 +93,12 @@ L<https://github.com/imneme/pcg-c-basic>
 
 L<Math::Random::Secure> for good seed choice.
 
+L<http://xoshiro.di.unimi.it> for a different PRNG and tips on compiler
+flags for use during benchmarks.
+
+  "though I must say, those PRNG writers, it feels like they are in a
+  small scale war with each other at times" -- random chat comment
+
 =head1 AUTHOR
 
 thrig - Jeremy Mates (cpan:JMATES) C<< <jmates at cpan.org> >>
