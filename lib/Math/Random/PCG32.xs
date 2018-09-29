@@ -32,6 +32,25 @@ irand(pcg32_random_t *rng)
     OUTPUT:
         RETVAL
 
+UV
+irand64(pcg32_random_t *rng)
+    CODE:
+        RETVAL = ((uint64_t) pcg32_random_r(rng) << 32) | pcg32_random_r(rng);
+    OUTPUT:
+        RETVAL
+
+UV
+irand_in(pcg32_random_t *rng, uint32_t min, uint32_t max)
+    CODE:
+        if (max == min)
+            RETVAL = min;
+        else if (min > max)
+            croak("max must be greater than min");
+        else
+            RETVAL = min + pcg32_random_r(rng) % (max - min + 1);
+    OUTPUT:
+        RETVAL
+
 double
 rand(pcg32_random_t *rng, ...)
     PROTOTYPE: $;$

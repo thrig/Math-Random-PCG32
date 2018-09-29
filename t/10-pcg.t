@@ -8,7 +8,8 @@ my $deeply = \&eq_or_diff;
 
 use Math::Random::PCG32;
 
-can_ok( 'Math::Random::PCG32', qw(new irand rand rand_elm rand_idx) );
+can_ok( 'Math::Random::PCG32',
+    qw(new irand irand64 irand_in rand rand_elm rand_idx) );
 
 my $rng = Math::Random::PCG32->new( 42, 54 );
 
@@ -34,4 +35,11 @@ is( $rng->rand_elm( \@letters ), 'b', 'rand_elm' );
 is( sprintf( "%.2f", $rng->rand ),       '0.90',   'rand' );
 is( sprintf( "%.2f", $rng->rand(1000) ), '973.52', 'rand x1000' );
 
-done_testing 6
+is( $rng->irand64, 3664671147774981625, 'irand64' );
+
+$deeply->(
+    [ map $rng->irand_in( 4, 10 / 2 ), 1 .. 5 ],
+    [ 4, 5, 5, 5, 4 ], 'irand_in'
+);
+
+done_testing 8

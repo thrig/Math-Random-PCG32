@@ -10,8 +10,8 @@ use warnings;
 use strict;
 
 require Exporter;
-our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(irand rand rand_elm rand_idx);
+our @ISA       = qw(Exporter);
+our @EXPORT_OK = qw(irand irand64 irand_in rand rand_elm rand_idx);
 
 our $VERSION = '0.07';
 
@@ -35,6 +35,7 @@ Math::Random::PCG32 - minimal PCG random number generator
   $rng->rand;
   $rng->rand(10);
   $rng->irand;
+  $rng->irand_in( 1, 100 );
   $rng->rand_idx( \@some_array );
   $rng->rand_elm( \@some_array );
 
@@ -61,6 +62,9 @@ the L<Benchmark> module on my somehow still functional 2009 macbook.
 
 =head1 METHODS
 
+Various methods may croak if invalid input is detected. Use B<new> to
+obtain an object and then call the others using that.
+
 =over 4
 
 =item B<new> I<initstate> I<initseq>
@@ -84,6 +88,15 @@ Returns a random number from an object constructed by B<new>. The return
 value is a 32-bit unsigned integer.
 
 Used to be called B<rand> in older versions of the module.
+
+=item B<irand_in> I<min> I<max>
+
+Returns a random integer in the range of I<min> to I<max>, inclusive.
+
+=item B<irand64>
+
+Returns a 64-bit unsigned integer, possibly by sticking the result of
+two calls to the RNG together.
 
 =item B<rand> [ I<factor> ]
 
@@ -125,6 +138,7 @@ L<https://github.com/thrig/Math-Random-PCG32>
 
 New code, not many features, questionable XS. Probably needs a modern
 compiler for the C<stdint> types. Untested on older versions of Perl.
+Untested on 32-bit versions of Perl.
 
 =head1 SEE ALSO
 

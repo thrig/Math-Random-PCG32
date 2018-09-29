@@ -1,4 +1,5 @@
 uint32_t                T_UV
+uint64_t                T_UV
 pcg32_random_t *        O_OBJECT
 
 OUTPUT
