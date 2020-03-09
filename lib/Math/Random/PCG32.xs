@@ -127,7 +127,7 @@ SV *
 rand_from(pcg32_random_t *rng, avref)
     AV *avref;
     PREINIT:
-        SSize_t i, len, rnd, trim;
+        SSize_t i, len, rnd;
         SV *dunno, **src, **dst;
     CODE:
         len = av_len(avref) + 1;
@@ -161,10 +161,12 @@ rand_idx(pcg32_random_t *rng, avref)
 UV
 roll(pcg32_random_t *rng, uint32_t count, uint32_t sides)
     PREINIT:
-        uint32_t i, sum;
+        uint32_t sum;
     CODE:
+        if (count == 0) croak("count must be positive");
+        if (sides == 0) croak("sides must be positive");
         sum = count;
-        for (i = 0; i < count; i++) sum += pcg32_random_r(rng) % sides;
+        while (count--) sum += pcg32_random_r(rng) % sides;
         RETVAL = sum;
     OUTPUT:
         RETVAL
