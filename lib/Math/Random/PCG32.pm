@@ -83,11 +83,11 @@ only with small numbers.
 =item B<new> I<initstate> I<initseq>
 
 Makes a new object. No peeking! The two seed values must be 64-bit
-unsigned integers. These could be read off of C</dev/random>, e.g.
+unsigned integers. These could be read off of C</dev/urandom>, e.g.
 
     use Fcntl;
     my $raw;
-    sysopen( my $fh, "/dev/random", O_RDONLY ) or die ...;
+    sysopen( my $fh, "/dev/urandom", O_RDONLY ) or die ...;
     ... = sysread $fh, $raw, 8;
     my $seed = unpack "Q", $raw;
 
